@@ -1,0 +1,29 @@
+{
+    "name": "fruit/core",
+    "description": "Core components of Fruit framework",
+    "authors": [
+        {
+            "name": "Ronmi Ren",
+            "email": "ronmi@patrolavia.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "~4",
+        "squizlabs/php_codesniffer": "*",
+	"phploc/phploc": "*",
+	"pdepend/pdepend": "*",
+	"phpmd/phpmd": "*",
+	"sebastian/phpcpd": "*"
+    },
+    "require": {
+        "symfony/yaml": "~3"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Fruit\\": "src",
+            "FruitTest\\": "test"
+        }
+    }
+}
