@@ -16,7 +16,6 @@
 	"sebastian/phpcpd": "*"
     },
     "require": {
-        "symfony/yaml": "~3"
     },
     "suggest": {
     },
