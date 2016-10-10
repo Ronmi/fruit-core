@@ -6,10 +6,14 @@ use Fruit\RouteKit\Router;
 
 class Bootstrap
 {
-    public static function boot(Router $router, $method, $path)
+    public static function boot(Router $router, string $method, string $path, Request $req)
     {
         $err = '';
         ob_start();
+        $int = $router->getInterceptor();
+        if ($int !== null and $int instanceof Injector) {
+            $int->setData('request', $req);
+        }
         try {
             $ret = $router->dispatch($method, $path);
         } catch (HTTPStatus $h) {
@@ -25,6 +29,7 @@ class Bootstrap
             $ret = $err;
         }
 
+        header('Content-Type: application/json');
         echo json_encode($ret);
     }
 
@@ -34,6 +39,6 @@ class Bootstrap
         if (!$path) {
             $path = $_SERVER['REQUEST_URI'];
         }
-        self::boot($router, $_SERVER['REQUEST_METHOD'], $path);
+        self::boot($router, $_SERVER['REQUEST_METHOD'], $path, new FPMRequest);
     }
 }
