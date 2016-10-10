@@ -16,7 +16,7 @@ abstract class Request
     /**
      * This method returns request body, not including multipart data.
      */
-    abstract public function body();
+    abstract public function body(): string;
 
     private $jsonCached;
     private $json;

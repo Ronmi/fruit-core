@@ -12,7 +12,7 @@ class FPMRequest extends Request
     }
 
     private $bodyCache;
-    public function body()
+    public function body(): string
     {
         if ($this->bodyCache === null) {
             $this->bodyCache = file_get_contents('php://input');
