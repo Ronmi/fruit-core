@@ -3,40 +3,27 @@
 namespace Fruit;
 
 use Fruit\RouteKit\Interceptor;
+use Fruit\CompileKit\Compilable;
+use Fruit\CompileKit\Renderable;
+use Fruit\CompileKit\Value;
 
-class Injector implements Interceptor
+class Injector implements Interceptor, Compilable
 {
-    private $data;
-    public function __construct(array $data = array())
+    private $m;
+    public function set(Svalbard $m)
     {
-        $this->data = $data;
-    }
-
-    public function setData(string $key, $value)
-    {
-        if ($value !== null) {
-            $this->data[$key] = $value;
-        }
+        $this->m = $m;
     }
 
     public function intercept(string $url, $obj, string $method)
     {
-        if (!($obj instanceof AbstractHandler)) {
-            return;
-        }
-
-        foreach ($this->data as $k => $v) {
-            $obj->context($k, $v);
+        if ($obj instanceof Controller) {
+            $obj->inject($this->m);
         }
     }
 
-    public function setup(\Fruit\RouteKit\Mux $mux)
+    public function compile(): Renderable
     {
-        $mux->setInterceptor($this);
-    }
-
-    public static function __set_state(array $data)
-    {
-        return new self($data['data']);
+        return Value::as('new \Fruit\Injector');
     }
 }

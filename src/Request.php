@@ -2,31 +2,17 @@
 
 namespace Fruit;
 
-abstract class Request
+interface Request
 {
-    public $form = array(); // roughly $_REQUEST, not guarantee to exist before calling parse()
-    public $file = array(); // same as $_FILE, not guarantee to exist before calling parse()
-    public $env = array(); // yes, $_SERVER, not guarantee to exist before calling parse()
-
-    /**
-     * This function prepares form, file and env.
-     */
-    abstract public function parse();
-
-    /**
-     * This method returns request body, not including multipart data.
-     */
-    abstract public function body(): string;
-
-    private $jsonCached;
-    private $json;
-    public function json()
-    {
-        if (!$this->jsonCached) {
-            $this->json = json_decode($this->body(), true);
-            $this->jsonCached = true;
-        }
-
-        return $this->json;
-    }
+    public function body(): string;
+    public function get(): array;
+    public function post(): array;
+    public function server(): array;
+    public function env(): array;
+    public function form(): array;
+    public function header(): array;
+    public function cookie(): array;
+    public function file(): array;
+    public function uri(): string;
+    public function method(): string;
 }
