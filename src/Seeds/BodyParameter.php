@@ -14,6 +14,11 @@ class BodyParameter extends BaseSeed
         return 'body_parameter.yml';
     }
 
+    protected function depends(): array
+    {
+        return ['Fruit\Seeds\Validator'];
+    }
+
     protected function validateConfig()
     {
         Repo::default()

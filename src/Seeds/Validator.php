@@ -10,12 +10,12 @@ use Fruit\CompileKit\Block;
 
 class Validator extends Seed
 {
-    private $repo = null;
+    protected $repo = null;
     protected function init()
     {
         $this->repo = new Repo;
         $cfg = $this->readConfig('validators.yml');
-        Repo::default()->check($this->cfg, 'dict', ['elements' => [
+        Repo::default()->check($cfg, 'dict', ['elements' => [
             '*' => [
                 'type' => 'string'
             ],

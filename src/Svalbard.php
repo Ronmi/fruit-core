@@ -136,7 +136,8 @@ class Svalbard
         $c->can('get')->append($body)->accept('$name')->type('string');
 
         // disable register in runtime
-        $c->can('register')->rawArg('$n', 'string')->rawArg('$c', 'string');
+        $c->can('register')->rawArg('$n', 'string')->rawArg('$c', 'string')
+            ->return('\Fruit\Svalbard');
 
         return $c;
     }

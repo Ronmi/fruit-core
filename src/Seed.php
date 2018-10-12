@@ -36,6 +36,17 @@ abstract class Seed implements Compilable
     }
 
     /**
+     * Retrieve list of dependencies.
+     *
+     * You SHOULD return full qualified classname in array, like
+     * `['Fruit\Seeds\Validator']`.
+     */
+    protected function depends(): array
+    {
+        return [];
+    }
+
+    /**
      * helper to read yaml file.
      */
     final protected function readConfig(string $fn)
@@ -54,6 +65,10 @@ abstract class Seed implements Compilable
         $this->basePath = $storage->getBasePath();
         $this->init();
         $this->svalbard = $storage;
+
+        foreach ($this->depends() as $cls) {
+            $this->svalbard->byClass($cls);
+        }
     }
 
     final protected function req(string $className)
@@ -73,7 +88,7 @@ abstract class Seed implements Compilable
      */
     final public static function genCode(): array
     {
-        $c = new AnonymousClass;
+        $c = (new AnonymousClass)->extends("\\" . get_called_class());
         $init = $c->can('init');
 
         return [$c, $init];
